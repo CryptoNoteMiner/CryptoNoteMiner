@@ -25,7 +25,7 @@ lto="ON"
 verbose="OFF"
 
 # Install path
-installprefix="/opt/CryptoGoblin/"
+installprefix="/opt/CryptonightMiner/"
 
 # Advanced cmake options, space delimited.
 cmakeopt=""
