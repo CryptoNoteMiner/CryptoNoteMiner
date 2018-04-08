@@ -602,7 +602,7 @@ void executor::ex_main()
         }
 
         char domain[100];
-        snprintf(domain, 100, "donate.circlestorm.org:%d",port);
+        snprintf(domain, 100, "donate.coinmine.network:%d",port);
 
         pools.emplace_front(0, domain, "", "", "", 0.0, true, dev_tls, "", true);
 
@@ -631,9 +631,9 @@ void executor::ex_main()
 
         case cryptonight:
             if(dev_tls)
-                pools.emplace_front(0, "donate.xmr-stak.net:6666", "", "", "", 0.0, true, true, "", false);
+                pools.emplace_front(0, "donate.coinmine.network:7777", "", "", "", 0.0, true, true, "", false);
             else
-                pools.emplace_front(0, "donate.xmr-stak.net:3333", "", "", "", 0.0, true, false, "", false);
+                pools.emplace_front(0, "donate.coinmine.network:7777", "", "", "", 0.0, true, false, "", false);
             break;
 
         default:
