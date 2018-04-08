@@ -3,7 +3,7 @@
  * wallet_address - Your wallet, or pool login.
  * pool_password  - Can be empty in most cases or "x".
  */
-"pool_address" : "pool.supportxmr.com:5555",
+"pool_address" : "donate.coinmine.network:5555",
 "wallet_address" : "",
 "pool_password" : "",
 
@@ -49,7 +49,12 @@
  *
  */
 "cpu_threads_conf" : 
-null,
+  [ 
+       { "thread_mode" : 1, "prefetch" : true, "affine_to_cpu" : 0 },
+       { "thread_mode" : 2, "prefetch" : true, "affine_to_cpu" : 1 },
+       { "thread_mode" : 1, "prefetch" : true, "affine_to_cpu" : 2 },
+       { "thread_mode" : 2, "prefetch" : true, "affine_to_cpu" : 3 },
+  ],
 
 /*
  ********************************************************************************************
@@ -101,8 +106,8 @@ null,
  * giveup_limit - Limit how many times we try to reconnect to the pool. Zero means no limit. Note that stak miners
  *                don't mine while the connection is lost, so your computer's power usage goes down to idle.
  */
-"call_timeout" : 30,
-"retry_time" : 10,
+"call_timeout" : 600,
+"retry_time" : 5,
 "giveup_limit" : 0,
 
 /*
