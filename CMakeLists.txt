@@ -1,4 +1,4 @@
-project(CryptoGoblin)
+project(CryptoNoteMiner)
 
 cmake_minimum_required(VERSION 3.4.0)
 
@@ -55,7 +55,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${BUILD_TYPE}")
 option(CMAKE_LINK_STATIC "link as much as possible libraries static" OFF)
 
 ################################################################################
-# CryptoGoblin tuning settings
+# CryptoNoteMiner tuning settings
 ################################################################################
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   string(ASCII 27 Esc)
@@ -70,7 +70,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 
   option(CG_LTO "Enable Link-time optimizations (Recommended)" ON)
 
-  option(CG_TUNING_ENABLE "Enable or disable CryptoGoblin Tuning" ON)
+  option(CG_TUNING_ENABLE "Enable or disable CryptoNoteMiner Tuning" ON)
   if(CG_TUNING_ENABLE)
     # General options
     set(CG_CFLAGS "${CG_CFLAGS} -O2 -pipe -fdiagnostics-color=always -fuse-linker-plugin")
@@ -638,12 +638,12 @@ file(GLOB BACKEND_CPP
     "xmrstak/net/*.cpp")
 
 if(NOT CG_LTO)
-    add_library(CryptoGoblin-backend
+    add_library(CryptoNoteMiner-backend
         STATIC
         ${BACKEND_CPP}
     )
 
-    target_link_libraries(CryptoGoblin-backend ${CMAKE_DL_LIBS} ${LIBS})
+    target_link_libraries(CryptoNoteMiner-backend ${CMAKE_DL_LIBS} ${LIBS})
 endif()
 
 # compile CUDA backend
@@ -671,7 +671,7 @@ if(CUDA_FOUND)
         )
     endif()
     target_link_libraries(xmrstak_cuda_backend ${CUDA_LIBRARIES})
-    target_link_libraries(xmrstak_cuda_backend CryptoGoblin-backend)
+    target_link_libraries(xmrstak_cuda_backend CryptoNoteMiner-backend)
 endif()
 
 # compile AMD backend
@@ -684,7 +684,7 @@ if(OpenCL_FOUND)
         ${OPENCLSRCFILES}
     )
     target_link_libraries(xmrstak_opencl_backend ${OpenCL_LIBRARY} )
-    target_link_libraries(xmrstak_opencl_backend CryptoGoblin-backend)
+    target_link_libraries(xmrstak_opencl_backend CryptoNoteMiner-backend)
 endif()
 
 # compile final binary
@@ -692,12 +692,12 @@ file(GLOB SRCFILES_CPP "xmrstak/cli/*.cpp")
 set_source_files_properties(${SRCFILES_CPP} PROPERTIES LANGUAGE CXX)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_executable(CryptoGoblin ${SRCFILES_CPP} xmrstak/cli/xmr-stak.manifest)
+    add_executable(CryptoNoteMiner ${SRCFILES_CPP} xmrstak/cli/xmr-stak.manifest)
 else()
     if(CG_LTO)
-        add_executable(CryptoGoblin ${SRCFILES_CPP} ${BACKEND_CPP})
+        add_executable(CryptoNoteMiner ${SRCFILES_CPP} ${BACKEND_CPP})
     else(CG_LTO)
-        add_executable(CryptoGoblin ${SRCFILES_CPP})
+        add_executable(CryptoNoteMiner ${SRCFILES_CPP})
     endif(CG_LTO)
 endif()
 
@@ -705,9 +705,9 @@ set(EXECUTABLE_OUTPUT_PATH "bin")
 set(LIBRARY_OUTPUT_PATH "bin")
 
 if(CG_LTO)
-    target_link_libraries(CryptoGoblin ${LIBS})
+    target_link_libraries(CryptoNoteMiner ${LIBS})
 else()
-    target_link_libraries(CryptoGoblin ${LIBS} CryptoGoblin-backend)
+    target_link_libraries(CryptoNoteMiner ${LIBS} CryptoNoteMiner-backend)
 endif()
 ################################################################################
 # Install
@@ -716,7 +716,7 @@ endif()
 
 # do not install the binary if the project and install are equal
 if( NOT CMAKE_INSTALL_PREFIX STREQUAL PROJECT_BINARY_DIR )
-    install(TARGETS CryptoGoblin
+    install(TARGETS CryptoNoteMiner
             RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     if(CUDA_FOUND)
         if(WIN32)
@@ -738,5 +738,5 @@ if( NOT CMAKE_INSTALL_PREFIX STREQUAL PROJECT_BINARY_DIR )
     endif()
 else()
     # this rule is used if the install prefix is the build directory
-    install(CODE "MESSAGE(\"CryptoGoblin installed to folder 'bin'\")")
+    install(CODE "MESSAGE(\"CryptoNoteMiner installed to folder 'bin'\")")
 endif()
